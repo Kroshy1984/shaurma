@@ -24,6 +24,7 @@ for row in range(1, List.nrows):
         c = row[2] - float(name3)
         sql2 = "UPDATE Pozition SET Total = ? WHERE Name like ?"
         cur.execute(sql2, (c, name2))
+        con.commit()
 
     for row in cur.execute ("SELECT * FROM Pozition where Name like ?",(name2,)):
         print(row)
