@@ -168,12 +168,12 @@ class sayrma():
         self.window.geometry("1500x700")
         self.window.title("СКЛАД"),
         self.table = Treeview(self.window, columns=("Name", "Units", "Total", "Cost", "RURTorg", "Komment"), height=15)
-        self.table.column("Name", width=350, anchor=tkinter.CENTER)
-        self.table.column("Units", width=130, anchor=tkinter.CENTER)
-        self.table.column("Total", width=130, anchor=tkinter.CENTER)
-        self.table.column("Cost", width=120, anchor=tkinter.CENTER)
-        self.table.column("RURTorg", width=120, anchor=tkinter.CENTER)
-        self.table.column("Komment", width=350, anchor=tkinter.CENTER)
+        self.table.column("Name", width=350, anchor=tkinter.W)
+        self.table.column("Units", width=130, anchor=tkinter.W)
+        self.table.column("Total", width=130, anchor=tkinter.W)
+        self.table.column("Cost", width=120, anchor=tkinter.W)
+        self.table.column("RURTorg", width=120, anchor=tkinter.W)
+        self.table.column("Komment", width=350, anchor=tkinter.W)
         self.table['show'] = 'headings'
         self.table.heading('Name', text='Наименование товара')
         self.table.heading('Units', text='Единица измерения')
