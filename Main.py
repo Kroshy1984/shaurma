@@ -215,7 +215,14 @@ class sayrma():
 
     def OpenFile(self):
         filename = tkinter.filedialog.askopenfilename()
-        self.exel_load(filename)
+        while True:
+            try:
+                self.exel_load(filename)
+                break
+            except xlrd.biffh.XLRDError:
+                print("не файл Excel!")
+                filename = tkinter.filedialog.askopenfilename()
+                self.exel_load(filename)
 
 
 window = sayrma()
