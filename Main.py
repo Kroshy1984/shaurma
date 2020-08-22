@@ -2,17 +2,35 @@ import sqlite3
 import tkinter
 from tkinter.ttk import Treeview
 import xlrd
+from tkinter import filedialog
 
 class sayrma():
-    def exel_load(self):
-        book = xlrd.open_workbook('File.xls')
+    def exel_load(self,filename):
+        book = xlrd.open_workbook(filename)
         List = book.sheet_by_index(0)
         for row in range(1, List.nrows):
-            name = List.cell(row, 0)
-            name2 = List.cell(row, 1)
-            name3 = List.cell(row, 2)
-            print(name, name2, name3)
+            name2 = List.cell(row, 0)
+            name3 = List.cell(row, 3)
+            name2 = str(name2)
+            name2 = name2[6:-1]
+            name3 = str(name3)
+            name3 = name3[7:]
+            sql = "SELECT * FROM Pozition WHERE Name like ?"
+            con = sqlite3.connect('Store.db')
+            cur = con.cursor()
+            for row in cur.execute("SELECT * FROM Pozition where Name like ?", (name2,)):
+                print(row)
 
+            for row in cur.execute(sql, (name2,)):
+
+                c = row[2] - float(name3)
+                sql2 = "UPDATE Pozition SET Total = ? WHERE Name like ?"
+                cur.execute(sql2, (c, name2))
+                con.commit()
+
+            for row in cur.execute("SELECT * FROM Pozition where Name like ?", (name2,)):
+                print(row)
+        self.sqlite_create()
 
     def sqlite_create(self):
         con = sqlite3.connect('Store.db')
@@ -26,7 +44,6 @@ class sayrma():
     def insert2(self):
         con = sqlite3.connect('Store.db')
         cur = con.cursor()
-
         cur.execute(''' INSERT INTO Pozition VALUES(?, ?, ?, ?, ?, ?); ''', (self.a, self.b, self.c, self.d, self.e, self.z))
         con.commit()
         con.close()
@@ -163,7 +180,7 @@ class sayrma():
         self.sqlite_create()
 
     def __init__(self):
-        self.exel_load()
+
         self.window = tkinter.Tk()
         self.window.geometry("1500x700")
         self.window.title("СКЛАД"),
@@ -184,14 +201,22 @@ class sayrma():
         self.sqlite_create()
 
         self.table.place(x=5, y=5)
-        btn = tkinter.Button(self.window, text="Добавить", bg="lightgreen", fg="green", command=self.edit)
+        btn = tkinter.Button(self.window, text="Добавить", bg="lightgreen", fg="Black", command=self.edit)
         btn.place(x=1250, y=50)
         btn2 = tkinter.Button(self.window, text="Редактировать", bg="lightgreen", fg="Black", command=self.edit2)
         btn2.place(x=1250, y=80)
-        btn3 = tkinter.Button(self.window, text="Удалить", bg="red", fg="Red", command=self.delete)
+        btn3 = tkinter.Button(self.window, text="Удалить", bg="red", fg="Black", command=self.delete)
         btn3.place(x=1250, y=110)
 
+        btn4 = tkinter.Button(self.window, text="Загрузить файл с данными о продажах", bg = "Lightblue", fg= "Black", command=self.OpenFile)
+        btn4.place(x=250, y=550)
+
         self.window.mainloop()
+
+    def OpenFile(self):
+        filename = tkinter.filedialog.askopenfilename()
+        self.exel_load(filename)
+
 
 window = sayrma()
 
