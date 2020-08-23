@@ -214,16 +214,29 @@ class sayrma():
         self.window.mainloop()
 
     def OpenFile(self):
-        filename = tkinter.filedialog.askopenfilename()
         while True:
             try:
+                filename = tkinter.filedialog.askopenfilename()
                 self.exel_load(filename)
                 break
             except xlrd.biffh.XLRDError:
-                print("не файл Excel!")
-                filename = tkinter.filedialog.askopenfilename()
-                self.exel_load(filename)
+                self.errormessage(filename)
 
+
+    def errormessage(self,filename):
+        self.errorwindow = tkinter.Toplevel(self.window)
+        self.errorwindow.geometry("700x150+500+300")
+        self.errorwindow.title("Ошибка!!!!")
+        self.errorwindow.lift()
+        self.errorwindow.focus()
+        self.errorwindow.attributes('-topmost', True)
+        self.errorwindow.update()
+        lable = tkinter.Label(self.errorwindow, text=f"Ошибка открытия файла {filename}!", fg="Black")
+        lable.place(x=30, y=10)
+        lable1 = tkinter.Label(self.errorwindow, text="Файл должен быть Excel!!", fg="Red")
+        lable1.place(x=30, y=40)
+        btn3 = tkinter.Button(self.errorwindow, text="Удалить", bg="red", fg="Black")
+        btn3.place(x=45, y=110)
 
 window = sayrma()
 
