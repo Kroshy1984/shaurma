@@ -30,7 +30,7 @@ class sayrma():
 
             for row in cur.execute("SELECT * FROM Pozition where Name like ?", (name2,)):
                 print(row)
-        self.sqlite_create()
+                self.sqlite_create()
 
     def sqlite_create(self):
         con = sqlite3.connect('Store.db')
