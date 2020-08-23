@@ -30,6 +30,7 @@ class sayrma():
 
             for row in cur.execute("SELECT * FROM Pozition where Name like ?", (name2,)):
                 print(row)
+                self.table.delete(*self.table.get_children())
                 self.sqlite_create()
 
     def sqlite_create(self):
